@@ -6,7 +6,7 @@
 /*   By: lpalomin <lpalomin@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:09:43 by lpalomin          #+#    #+#             */
-/*   Updated: 2025/05/02 10:06:35 by lpalomin         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:53:46 by lpalomin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,17 @@ static int	init_forks(t_table *table)
 	while (count < table->amount_philo)
 	{
 		if (pthread_mutex_init(&table->forks[count].mutex, NULL))
+		{
+			while (--count >= 0)
+				pthread_mutex_destroy(&table->forks[count].mutex);
+			free(table->forks);
+			table->forks = NULL;
+			table->forks_init = 0;
 			return (1);
+		}
 		count++;
 	}
+	table->forks_init = table->amount_philo;
 	return (0);
 }
 
@@ -58,6 +66,11 @@ static int	init_table(t_table *table, int argc, char **argv)
 {
 	if (!table)
 		return (1);
+	table->mutex_print_init = 0;
+	table->mutex_death_init = 0;
+	table->forks_init = 0;
+	table->forks = NULL;
+	table->philosophers = NULL;
 	table->amount_philo = ft_atoi(argv[1]);
 	table->die_time = ft_atoi(argv[2]);
 	table->eat_time = ft_atoi(argv[3]);
@@ -68,14 +81,24 @@ static int	init_table(t_table *table, int argc, char **argv)
 		table->number_meats = -1;
 	table->someone_died = 0;
 	table->start_time = 0;
-	if (pthread_mutex_init(&table->print_mutex, NULL)
-		|| pthread_mutex_init(&table->death_mutex, NULL))
+	if (table->amount_philo <= 0 || table->die_time <= 0
+		|| table->eat_time <= 0 || table->sleep_time <= 0
+		|| (argc == 6 && table->number_meats <= 0))
+		return (1);
+	if (pthread_mutex_init(&table->print_mutex, NULL) == 0)
+		table->mutex_print_init = 1;
+	else
+		return (1);
+	if (pthread_mutex_init(&table->death_mutex, NULL) == 0)
+		table->mutex_death_init = 1;
+	else
 		return (1);
 	return (init_forks(table) || init_philosophers(table));
 }
 
 int	init_game(t_table *table, int argc, char **argv)
 {
+	memset(table, 0, sizeof(t_table));
 	if (init_table(table, argc, argv))
 	{
 		printf("Error: Init failed\n");

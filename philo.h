@@ -6,7 +6,7 @@
 /*   By: lpalomin <lpalomin@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:20:39 by lpalomin          #+#    #+#             */
-/*   Updated: 2025/05/02 12:32:40 by lpalomin         ###   ########.fr       */
+/*   Updated: 2025/05/26 14:57:16 by lpalomin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <pthread.h>
+# include <sys/time.h>
+# include <string.h>
 
 typedef struct s_fork
 {
@@ -47,12 +49,23 @@ typedef struct s_table
 	struct s_fork			*forks;
 	pthread_mutex_t			print_mutex;
 	pthread_mutex_t			death_mutex;
+	int						mutex_print_init;
+	int						mutex_death_init;
+	int						forks_init;
 }	t_table;
 
 // init_game.c
-int		init_game(t_table *table, int argc, char **argv);
+int			init_game(t_table *table, int argc, char **argv);
 // free_utils.c
-void	free_and_clean(t_table *table);
+void		free_and_clean(t_table *table);
+// action_utils.c
+int			start_game(t_table *table);
 // function_utils.c
-int		ft_atoi(const char *nptr);
+int			ft_atoi(const char *nptr);
+long long	philo_timestamp(void);
+void		print_action(t_philosopher *philo, int action);
+void		ft_usleep(long long ms);
+int			check_deaths(t_table *table);
+// philosopher_killer.c
+void		*death_checker(void *arg);
 #endif
