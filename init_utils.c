@@ -6,7 +6,7 @@
 /*   By: lpalomin <lpalomin@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:09:43 by lpalomin          #+#    #+#             */
-/*   Updated: 2025/05/26 14:53:46 by lpalomin         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:41:41 by lpalomin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,8 @@ static int	init_philosophers(t_table *table)
 	return (0);
 }
 
-static int	init_table(t_table *table, int argc, char **argv)
+static int	init_table_options(t_table *table, int argc, char **argv)
 {
-	if (!table)
-		return (1);
-	table->mutex_print_init = 0;
-	table->mutex_death_init = 0;
-	table->forks_init = 0;
-	table->forks = NULL;
-	table->philosophers = NULL;
-	table->amount_philo = ft_atoi(argv[1]);
-	table->die_time = ft_atoi(argv[2]);
-	table->eat_time = ft_atoi(argv[3]);
-	table->sleep_time = ft_atoi(argv[4]);
 	if (argc == 6)
 		table->number_meats = ft_atoi(argv[5]);
 	else
@@ -92,6 +81,24 @@ static int	init_table(t_table *table, int argc, char **argv)
 	if (pthread_mutex_init(&table->death_mutex, NULL) == 0)
 		table->mutex_death_init = 1;
 	else
+		return (1);
+	return (0);
+}
+
+static int	init_table(t_table *table, int argc, char **argv)
+{
+	if (!table)
+		return (1);
+	table->mutex_print_init = 0;
+	table->mutex_death_init = 0;
+	table->forks_init = 0;
+	table->forks = NULL;
+	table->philosophers = NULL;
+	table->amount_philo = ft_atoi(argv[1]);
+	table->die_time = ft_atoi(argv[2]);
+	table->eat_time = ft_atoi(argv[3]);
+	table->sleep_time = ft_atoi(argv[4]);
+	if (init_table_options(table, argc, argv))
 		return (1);
 	return (init_forks(table) || init_philosophers(table));
 }

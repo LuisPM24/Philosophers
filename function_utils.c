@@ -6,7 +6,7 @@
 /*   By: lpalomin <lpalomin@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:39:53 by lpalomin          #+#    #+#             */
-/*   Updated: 2025/05/26 13:28:49 by lpalomin         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:34:47 by lpalomin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ long long	philo_timestamp(void)
 	return (ms);
 }
 
-void print_action(t_philosopher *philo, int action)
+void	print_action(t_philosopher *philo, int action)
 {
-	long long   timestamp;
+	long long	timestamp;
 
 	timestamp = philo_timestamp();
 	pthread_mutex_lock(&philo->table->print_mutex);
