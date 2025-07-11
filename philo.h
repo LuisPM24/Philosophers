@@ -6,7 +6,7 @@
 /*   By: lpalomin <lpalomin@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:20:39 by lpalomin          #+#    #+#             */
-/*   Updated: 2025/05/26 14:57:16 by lpalomin         ###   ########.fr       */
+/*   Updated: 2025/05/26 09:28:49 by lpalomin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include <string.h>
 
 typedef struct s_fork
 {
@@ -49,9 +48,6 @@ typedef struct s_table
 	struct s_fork			*forks;
 	pthread_mutex_t			print_mutex;
 	pthread_mutex_t			death_mutex;
-	int						mutex_print_init;
-	int						mutex_death_init;
-	int						forks_init;
 }	t_table;
 
 // init_game.c

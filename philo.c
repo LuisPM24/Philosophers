@@ -6,7 +6,7 @@
 /*   By: lpalomin <lpalomin@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 12:50:52 by lpalomin          #+#    #+#             */
-/*   Updated: 2025/05/26 13:38:18 by lpalomin         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:38:11 by lpalomin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ static int	philosophers(int argc, char **argv)
 	t_table	table;
 
 	if (init_game(&table, argc, argv) != 0)
-	{
-		free_and_clean(&table);
 		return (1);
-	}
 	if (start_game(&table) != 0)
 	{
 		free_and_clean(&table);

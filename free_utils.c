@@ -6,7 +6,7 @@
 /*   By: lpalomin <lpalomin@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:16:57 by lpalomin          #+#    #+#             */
-/*   Updated: 2025/05/26 14:56:38 by lpalomin         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:35:56 by lpalomin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,19 @@ void	free_and_clean(t_table *table)
 {
 	int	count;
 
-	if (table->forks && table->forks_init > 0)
+	if (table->forks)
 	{
 		count = 0;
-		while (count < table->forks_init)
-			pthread_mutex_destroy(&table->forks[count++].mutex);
+		while (count < table->amount_philo)
+		{
+			pthread_mutex_destroy(&table->forks[count].mutex);
+			count++;
+		}
 		free(table->forks);
 		table->forks = NULL;
 	}
-	if (table->mutex_print_init)
-		pthread_mutex_destroy(&table->print_mutex);
-	if (table->mutex_death_init)
-		pthread_mutex_destroy(&table->death_mutex);
+	pthread_mutex_destroy(&table->print_mutex);
+	pthread_mutex_destroy(&table->death_mutex);
 	if (table->philosophers)
 	{
 		free(table->philosophers);

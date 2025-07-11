@@ -6,7 +6,7 @@
 /*   By: lpalomin <lpalomin@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 15:39:53 by lpalomin          #+#    #+#             */
-/*   Updated: 2025/05/27 17:34:47 by lpalomin         ###   ########.fr       */
+/*   Updated: 2025/06/23 14:19:58 by lpalomin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,19 @@ void	print_action(t_philosopher *philo, int action)
 	if (!check_deaths(philo->table))
 	{
 		if (action == 1)
-			printf("%lld %d has taken a fork\n", timestamp, philo->index);
+			printf("\033[0;32m%lld %d has taken a fork\033[0m\n",
+				timestamp, philo->index);
 		else if (action == 2)
 			printf("%lld %d is eating\n", timestamp, philo->index);
 		else if (action == 3)
-			printf("%lld %d is sleeping\n", timestamp, philo->index);
+			printf("\033[0;36m%lld %d is sleeping\033[0m\n",
+				timestamp, philo->index);
 		else if (action == 4)
-			printf("%lld %d is thinking\n", timestamp, philo->index);
+			printf("\033[0;33m%lld %d is thinking\033[0m\n",
+				timestamp, philo->index);
 		else if (action == 5)
-			printf("%lld %d died\n", timestamp, philo->index);
+			printf("\033[0;31m%lld %d died\033[0m\n",
+				timestamp, philo->index);
 	}
 	pthread_mutex_unlock(&philo->table->print_mutex);
 }
